@@ -1,0 +1,30 @@
+//https://leetcode.com/problems/longest-palindromic-substring/
+class Solution {
+    public String longestPalindrome(String s) {
+        int n = s.length();
+        char[] in = new char[2*n+1];
+        for(int i = 0; i < n; i++){
+            in[2*i] = '|';
+            in[2*i+1] = s.charAt(i);
+        }
+        in[2*n] = '|';
+        int[] radii = new int[2*n+1];
+        int center = 0;
+        int radius;
+        while(center<in.length){
+            radius=0;
+            while(center-(radius+1)>=0 && center+(radius+1)<in.length && in[center-(radius+1)]==in[center+(radius+1)]) radius++;
+            radii[center]=radius;
+            center++;
+        }
+        int maxi = 0;
+        for(int i=1; i < 2*n+1; i++) {
+            if(radii[maxi]<radii[i])maxi=i;
+        }
+        StringBuilder res = new StringBuilder();
+        for(int i = maxi-radii[maxi]; i <= maxi+radii[maxi]; i++){
+            if(in[i]!='|')res.append(in[i]+"");
+        }
+        return res.toString();
+    }
+}

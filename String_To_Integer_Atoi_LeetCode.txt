@@ -1,0 +1,33 @@
+//https://leetcode.com/problems/string-to-integer-atoi/
+class Solution {
+    public int myAtoi(String s) {
+        int positive=-1, res=0;
+        boolean numbers=false;
+        for(char e: s.toCharArray()) {
+            if(e==' ' && !numbers) continue;
+            else if(e =='-' && !numbers && positive == -1){
+                positive=0;
+                numbers=true;
+            } else if(e == '+' && !numbers && positive == -1){
+                positive=1;
+                numbers=true;
+            } else if(e >= '0' && e <= '9'){
+                numbers=true;
+                if(positive==-1)positive=1;
+                if(positive==1 &&
+                   (res > Integer.MAX_VALUE/10 || (res == Integer.MAX_VALUE/10 && e > '7'))
+                  ){
+                    System.out.println("max");
+                    return Integer.MAX_VALUE;
+                }
+                if(positive==0 && res > Integer.MAX_VALUE/10 
+                   || (res == Integer.MAX_VALUE/10 && e > '8'))
+                    return Integer.MIN_VALUE;
+                res=res*10+(e-'0');
+            }
+            else break;
+        }
+        if(positive==-1)positive=1;
+        return positive==1 ? res : res*(-1);
+    }
+} 

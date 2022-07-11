@@ -1,0 +1,42 @@
+//https://leetcode.com/problems/zigzag-conversion/
+class Solution {
+    public String convert(String s, int numRows) {
+//         4:2*4-2=6
+//         0 6   12    18    | 6
+//         1 5 7 11 13 17 19 | 4/2
+//         2 4 8 10 14 16 20 | 2/4
+//         3   9    15    21 | 6
+        
+//         5:2*5-2=8
+//         0 8    16    24    32 | 8
+//         1 7 9  15 17 23 25 31 | 6/2
+//         2 6 10 14 18 22 26 30 | 4
+//         3 5 11 13 19 21 27 29 | 2/6
+//         4   12    20    28    | 8
+        if(numRows==1)return s;
+        char[] in = s.toCharArray();
+        StringBuilder res = new StringBuilder(in.length);
+        int a = 2*numRows-2, b = 0, i = 0, j = 0;
+        boolean flag=true;
+        while(i<numRows) {
+            j=i;
+            flag=true;
+            while(j<in.length) {
+                res.append(in[j]+"");
+                if(a==0 || b==0) {
+                    j+=a+b;
+                }else if(flag){
+                    j+=a;
+                    flag=!flag;
+                }else{
+                    j+=b;
+                    flag=!flag;
+                }
+            }
+            a-=2;
+            b+=2;
+            i++;
+        }
+        return res.toString();
+    }
+}

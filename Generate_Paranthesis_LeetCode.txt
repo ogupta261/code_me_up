@@ -1,0 +1,27 @@
+//https://leetcode.com/problems/generate-parentheses/
+class Solution {
+    public void makeCombo(Set<String> res, int i, StringBuffer seq, int open, int close) {
+        if(i==seq.capacity()-1){
+            res.add(seq.toString());
+            return;
+        }
+        if(open>0){
+            seq.setCharAt(i,'(');
+            makeCombo(res,i+1,seq,open-1,close);
+        }
+        if(close>0 && (open-close)<1){
+            seq.setCharAt(i,')');
+            makeCombo(res,i+1,seq,open,close-1);
+        }
+    }
+    public List<String> generateParenthesis(int n) {
+        int open=n-1, close=n-1;
+        StringBuffer seq = new StringBuffer(2*n);
+        seq.setLength(2*n);
+        seq.setCharAt(0,'(');
+        seq.setCharAt(2*n-1,')');
+        Set<String> res = new TreeSet<String>();
+        makeCombo(res,1,seq,open,close);
+        return new ArrayList<String>(res);
+    }
+}
